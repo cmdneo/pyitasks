@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1 class="center-align">{% block title %} Tasks {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="fixed-action-btn modal-trigger">
+	<a class="btn-floating btn-large red" href="{{ url_for('tasks.create_task') }}">
+		<i class="large material-icons">add</i>
+	</a>
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<th></th>
+			<th>Description</th>
+			<th>Creation Date</th>
+			<th>Due Date</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% for task in tasks %}
+		<tr>
+			<td>
+				<form method="POST" action="{{ url_for('tasks.delete_task') }}">
+					<input type="text" name="task_id" value="{{ task.id_ }}" hidden>
+					<button type="submit" class="btn-flat"><span class="material-icons large red-text">
+							cancel
+						</span></button>
+				</form>
+			</td>
+			<td> {{ task.description }} </td>
+			<td> {{ task.creation_date }} </td>
+			<td> {{ task.due_date }} </td>
+			<td>
+				<form method="POST" action="{{ url_for('tasks.toggle_task') }}">
+					<input type="text" name="task_id" value="{{ task.id_ }}" hidden>
+					<p>
+						<label>
+							<input type="checkbox" name="task_state" {{ task.html_state }} onChange="this.form.submit()"
+								class="filled-in" />
+							<span></span>
+						</label>
+					</p>
+				</form>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}
