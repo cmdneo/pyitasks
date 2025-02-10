@@ -31,7 +31,6 @@ def tasks():
     res = cur.execute(
         'SELECT * FROM tasks ORDER BY created_at')
     rows = list(map(lambda x: Task(x), res.fetchall()))
-    print(rows)
 
     return render_template('task.html', tasks=rows)
 
